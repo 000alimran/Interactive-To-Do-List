@@ -4,12 +4,30 @@ body {
     padding: 0;
     text-align: center;
     background-color: #f4f4f9;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #f4f4f9;
 }
 
 header {
     background-color: #007bff;
     color: white;
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: white;
 }
 
 .add-task {
@@ -19,19 +37,15 @@ header {
     gap: 10px;
 }
 
-.add-task input {
+.add-task input, .add-task select, .add-task button {
     padding: 10px;
-    width: 200px;
-    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
 .add-task button {
-    padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -56,6 +70,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
 }
 
 .task-list li.completed {
@@ -63,11 +78,6 @@ header {
     color: gray;
 }
 
-.task-list button {
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
+footer {
+    margin-top: 20px;
 }

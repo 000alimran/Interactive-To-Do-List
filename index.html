@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive To-Do List</title>
+    <title>Enhanced To-Do List</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>To-Do List</h1>
+        <h1>Enhanced To-Do List</h1>
+        <button id="toggle-dark-mode">🌙 Dark Mode</button>
     </header>
     <main>
         <section class="add-task">
             <input type="text" id="task-title" placeholder="Task Title" />
+            <input type="date" id="task-date" />
+            <select id="task-category">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+            </select>
             <button id="add-task-btn">Add Task</button>
         </section>
         <section class="task-list">
+            <h2>Tasks</h2>
             <ul id="task-container"></ul>
+        </section>
+        <section class="task-progress">
+            <h2>Progress</h2>
+            <p id="progress-text">0 out of 0 tasks completed</p>
         </section>
     </main>
     <footer>
-        <p>&copy; 202504 @000alimran Interactive To do List</p>
+        <p>&copy; 2025 Enhanced To-Do List</p>
     </footer>
     <script src="script.js"></script>
 </body>

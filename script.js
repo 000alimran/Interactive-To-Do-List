@@ -1,39 +1,68 @@
 const addTaskBtn = document.getElementById("add-task-btn");
 const taskTitleInput = document.getElementById("task-title");
+const taskDateInput = document.getElementById("task-date");
+const taskCategorySelect = document.getElementById("task-category");
 const taskContainer = document.getElementById("task-container");
+const progressText = document.getElementById("progress-text");
+const darkModeToggle = document.getElementById("toggle-dark-mode");
 
-// Load tasks from localStorage
-document.addEventListener("DOMContentLoaded", loadTasks);
+let taskCount = 0;
+let completedTasks = 0;
+
+// Dark Mode Toggle
+darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+});
 
 // Add Task
 addTaskBtn.addEventListener("click", function () {
     const taskTitle = taskTitleInput.value.trim();
+    const taskDate = taskDateInput.value;
+    const taskCategory = taskCategorySelect.value;
 
-    if (taskTitle) {
-        createTaskElement(taskTitle);
-        saveTaskToLocalStorage(taskTitle);
-        taskTitleInput.value = ""; // Clear input
+    if (taskTitle && taskDate) {
+        createTaskElement(taskTitle, taskDate, taskCategory);
+        taskTitleInput.value = "";
+        taskDateInput.value = "";
+        updateProgress();
     } else {
-        alert("Please enter a task title!");
+        alert("Please fill out all fields!");
     }
 });
 
 // Create Task Element
-function createTaskElement(taskTitle) {
+function createTaskElement(title, date, category) {
+    taskCount++;
+
     const taskItem = document.createElement("li");
-    taskItem.textContent = taskTitle;
+    taskItem.innerHTML = `
+        <div>
+            <strong>${title}</strong> - ${category} <br />
+            <small>Due: ${date}</small>
+        </div>
+    `;
 
     const completeBtn = document.createElement("button");
     completeBtn.textContent = "Complete";
     completeBtn.addEventListener("click", function () {
+        if (!taskItem.classList.contains("completed")) {
+            completedTasks++;
+        } else {
+            completedTasks--;
+        }
         taskItem.classList.toggle("completed");
+        updateProgress();
     });
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
     deleteBtn.addEventListener("click", function () {
         taskContainer.removeChild(taskItem);
-        removeTaskFromLocalStorage(taskTitle);
+        if (taskItem.classList.contains("completed")) {
+            completedTasks--;
+        }
+        taskCount--;
+        updateProgress();
     });
 
     taskItem.appendChild(completeBtn);
@@ -41,22 +70,7 @@ function createTaskElement(taskTitle) {
     taskContainer.appendChild(taskItem);
 }
 
-// Save Task to Local Storage
-function saveTaskToLocalStorage(taskTitle) {
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.push(taskTitle);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-// Load Tasks from Local Storage
-function loadTasks() {
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach((task) => createTaskElement(task));
-}
-
-// Remove Task from Local Storage
-function removeTaskFromLocalStorage(taskTitle) {
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks = tasks.filter((task) => task !== taskTitle);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+// Update Progress
+function updateProgress() {
+    progressText.textContent = `${completedTasks} out of ${taskCount} tasks completed`;
 }
